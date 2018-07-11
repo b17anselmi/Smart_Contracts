@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ERC827</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h2 id="erc827-token-standard-walk-through">ERC827 Token Standard Walk-Through</h2>
+<p>The <a href="https://github.com/ethereum/EIPs/issues/827">ERC827</a> Ethereum token standard is an extension of the ERC20 standard, meaning that it has all the functionality and attributes as the ERC20 standard, and some additional capabilities added on. One of the most noticeable additions is that with this standard, data in the form of <code>bytes</code> can also be sent to other addresses. A problem that the ERC20 standard has which the ERC827 standard addresses is that if tokens are sent to a smart contract which is not designed to handle that type of token, or tokens at all, that smart contract can’t access them, and you can’t get them back, so they’ll be lost.</p>
+<h2 id="functions">Functions</h2>
+<ul>
+<li><code>function approveAndCall(address _spender, uint256 _value,bytes _data) public payable returns (bool);</code><br>
+Allows <code>_spender</code> to withdraw from the account interacting with the smart contract (<code>msg.sender</code>) up to the amount indicated by <code>_value</code>. There are more checks set into this function, and it calls others from the ERC20 <code>super</code> class.</li>
+<li><code>function transferAndCall(address _to, uint256 _value, bytes _data) public payable returns (bool);</code><br>
+Sends <code>_value</code> amount of tokens from <code>msg.sender</code> to <code>_to</code> and fires a <code>Transfer</code> event which is logged in the blockchain.</li>
+<li><code>function transferFromAndCall(address _from, address _to, uint256 _value, bytes _data) public payable returns (bool);</code><br>
+Transfers tokens from the address specified by <code>_from</code> to the address specified by <code>_to</code>, firing a <code>Transfer</code> event. It is also <code>payable</code>, which means this function allows ether to be sent to the smart contract.</li>
+</ul>
+</div>
+</body>
+
+</html>

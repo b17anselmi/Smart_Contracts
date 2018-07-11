@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ERC20</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1 id="erc20-token-standard-walk-through">ERC20 Token Standard Walk-Through</h1>
+<p>This is an overview of the ERC20 Ethereum token standard and its attributes. A token standard is simply a set of attributes (behaviors, data, etc) that a smart contract must have. These shared attributes allow for compatibility. Any additional attributes added to a smart contract do not disrupt this compatibility, the standard is simply the bare minimum which the token must have to belong to the standard.</p>
+<h2 id="data-fields">Data Fields</h2>
+<ul>
+<li><code>string public name</code><br>
+The name of the token, i.e. Lumens on the Stellar network.</li>
+<li><code>string public symbol</code><br>
+The symbol/abreviation for the token, i.e. XLM.</li>
+<li><code>uint8 public decimals</code><br>
+How many times the token can be broken down. I.e. USD as 2 decimals, because 10<sup>2</sup> = 100 and the smallest devisible unit of a dollar is a penny, 100 of which makes one dollar.</li>
+<li><code>uint256 public totalSupply</code><br>
+The total number of tokens created by the smart contract. Note: a smart contract containing only the minimum functions to comply with this standard will always have the same number of tokens as were created initially. However burn functions can be added to take tokens out of circulation and some extensions of ERC20 have <code>increaseSupply()</code> and <code>decreaseSupply()</code> functions.</li>
+</ul>
+<h2 id="functions">Functions</h2>
+<ul>
+<li>
+<p><code>function balanceOf(address who) public view returns (uint256);</code><br>
+The balance of the provided address, in this case <code>who</code>.</p>
+</li>
+<li>
+<p><code>function transfer(address to, uint256 value) public returns (bool);</code><br>
+Transfers a specified balance (<code>value</code>) from the address interacting with the smart contract (<code>msg.sender</code>) to a specified address (<code>to</code>).</p>
+</li>
+<li>
+<p><code>function allowance(address owner, address spender) public view returns (uint256);</code><br>
+Returns how many tokens <code>spender</code> is allowed to send. <strong>Note</strong>: this may be more than the balance.</p>
+</li>
+<li>
+<p><code>function transferFrom(address from, address to, uint256 value) public returns (bool);</code><br>
+Allows for tokens to be transferred between two accounts, <code>from</code> and <code>to</code>. Different functionality from the <code>transfer()</code> function described above as it’s not always transferring from the address interacting with the smart contract (<code>msg.sender</code>). This function allows funds to be transferred from a smart contract, otherwise money sent would be stuck in it forever.</p>
+</li>
+<li>
+<p><code>function approve(address spender, uint256 value) public returns (bool);</code><br>
+Allows for a certain amount (<code>value</code>) of tokens to be set as the maximum amount which can be transferred from that contract address by <code>spender</code>. Similar to if you had a setting on your debit that you couldn’t spend more than $100 at a time. Works with 	<code>transferFrom()</code> to allow for money to be taken out of contract.</p>
+</li>
+</ul>
+<h2 id="events">Events</h2>
+<p>Events write to the ledger which the smart contract is running on that something happened. In the implementation of these standards they are called in some of the above methods (i.e. 	<code>Transfer</code> is called in <code>transfer()</code>.</p>
+<ul>
+<li><code>event Transfer(address indexed from, address indexed to, uint256 value);</code><br>
+Pretty straightforward, just logs that <code>from</code> sent <code>to</code> a certain number (<code>value</code>) of tokens. Also note that when new tokens are created a <code>Transfer</code> event is logged as the number minted being transferred from the 0 address to the address interacting with the smart contract (<code>msg.sender</code>). The opposite is frequently the case when tokens are taken out of circulation or burned.</li>
+<li><code>event Approval(address indexed owner, address indexed spender, uint256 value);</code><br>
+Records that the <code>owner</code>  approved for a certain number of tokens (<code>value</code>) to be transferred to <code>spender</code>.</li>
+</ul>
+</div>
+</body>
+
+</html>
